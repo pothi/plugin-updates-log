@@ -1,0 +1,4 @@
+deploy/
+_site/
+log/
+code/cache/api.json

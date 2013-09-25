@@ -1,0 +1,11 @@
+name: Status Blog
+markdown: redcarpet
+pygments: true
+
+# my custom rules
+
+source:      /path/to/source
+destination: /path/to/deploy
+
+permalink: pretty
+paginate: 10

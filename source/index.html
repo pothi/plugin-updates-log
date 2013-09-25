@@ -1,0 +1,29 @@
+---
+layout: default
+title: Status updates
+---
+
+<div id="home">
+	<h1>Recent Updates</h1>
+	<ul class="posts">
+	{% for post in site.posts limit:10 %}
+		{% if forloop.index <= 3 %}
+			{% assign content = post.content %}
+			<h2>{{ post.title }}</h2>
+			<p class="meta">{{ post.date | date_to_string }}</p>
+
+			<div class="post">
+			{{ content }}
+			</div>
+			<hr />
+		{% else %}
+			{% if forloop.index == 4 %}
+			<h2>Earlier Updates</h2>
+			{% endif %}
+			<li><span>{{ post.date | date_to_string }}</span> &raquo; <a href="{{ post.url }}">{{ post.title }}</a></li>
+		{% endif %}
+	{% endfor %}
+	</ul>
+	<p>Other updates were archived and are not available for display for security reason! Please contact Pothi, if you really need those.</p>
+
+</div>
