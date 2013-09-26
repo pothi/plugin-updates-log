@@ -7,7 +7,7 @@ sites   = %w[ domainname.tld anotherdomain.net ]
 
 class PluginStatus
     #--- Functions ---#
-    def PluginStatus.create_hash ( log_file )
+    def self.create_hash ( log_file )
         # on line #1 the number of plugins is displayed
         first_line = 1
         line_count = first_line
@@ -21,7 +21,6 @@ class PluginStatus
             if line_count == first_line # true for only once :)
                 # on line #1, the number of plugins is displayed at the first WORD
                 plugins_count = line_string.split[0].to_i;
-                # puts "plugins count: #{plugins_count}"
 
             # let's count ((plugins_count+1)).times
             # first line only contains the info about number of plugins
@@ -79,14 +78,14 @@ class PluginStatus
         if !File.directory?( @log_dir )
             system( "mkdir #{@log_dir} &> /dev/null" )
             if !$?.exitstatus
-                echo 'Could not create log directory'
+                puts 'Could not create log directory'
                 exit 1
             end
         end
 
         system( "date '+%F %H:%M:%S - #{@site_name}' >> #{@wp_cli_log}" )
         if !$?.exitstatus
-            echo 'Could not write to wp-cli.log file. Exiting!!!'
+            puts 'Could not write to wp-cli.log file. Exiting!!!'
             exit 1
         end
 
@@ -101,7 +100,6 @@ class PluginStatus
         @blog_format += "layout: post\n"
         @blog_format += "category: plugins\n"
         @blog_format += "---\n\n"
-        @blog_format += "#Since last check...#\n"
 
         # prepend blog_format, for new file/s
         if !File.exists?( @blog_file_name )
@@ -110,14 +108,14 @@ class PluginStatus
             @blog_content = ''
         end
         
-        @blog_content += "##In [#{@site_name}](http://#{@site_name})##\n"
+        @blog_content += "In [#{@site_name}](http://#{@site_name})\n\n"
         @any_auto_plugin_update = false # assume, no auto updates
         @any_manual_plugin_update = false # assume, no manual update/insert/removal occurred
 
         #- create current log -#
         system( "/home/#{@username}/.wp-cli/bin/wp --path='#{@site_path}' plugin status > #{@current_log}" )
         if !$?.exitstatus
-            echo 'Could not get current log / status of plugins. Exiting!'
+            puts 'Could not get current log / status of plugins. Exiting!'
             exit 1
         end
 
@@ -134,16 +132,16 @@ class PluginStatus
                 if (version != @prev_plugins_list[name])
                     @any_manual_plugin_update = true
                     if @prev_plugins_list[name] == nil
-                        @blog_content += "+    #{name} (at version #{version}) has been activated.\n"
+                        @blog_content += "+    #{name} (at version #{version}) was activated.\n"
                     else
-                        @blog_content += "+    #{name} has been __manually__ updated _or_ degraded __and/or__ activated from #{@prev_plugins_list[name]} to #{version}.\n"
+                        @blog_content += "+    #{name} was __manually__ modified from #{@prev_plugins_list[name]} to #{version}.\n"
                     end
                 end
             }
 
             @prev_plugins_list.each { |name, version|
                 if (version != @current_plugins_list[name]) and (@current_plugins_list[name] == nil)
-                    @blog_content += "+    #{name} (at version #{version}) has been deactivated.\n"
+                    @blog_content += "+    #{name} (at version #{version}) was deactivated.\n"
                     @any_manual_plugin_update = true
                 end
             }
@@ -153,14 +151,14 @@ class PluginStatus
         #--- update plugins and log results in site's root ---#
         system( "/home/#{@username}/.wp-cli/bin/wp --path='#{@site_path}' plugin update-all >> #{@wp_cli_log}" )
         if !$?.exitstatus
-            echo 'Could not update all the plugins, even though, the previous log is found. Please check the wp-cli.log. Exiting!'
+            puts 'Could not update all the plugins, even though, the previous log is found. Please check the wp-cli.log. Exiting!'
             exit 1
         end
 
         #- create the update status log -#
         system( "/home/#{@username}/.wp-cli/bin/wp --path='#{@site_path}' plugin status > #{@updated_log}" )
         if !$?.exitstatus
-            echo 'Could not get plugin status of updated plugins, even though, the previous log is found. Some must have gone wrong after updating plugins. Exiting!'
+            puts 'Could not get plugin status of updated plugins, even though, the previous log is found. Some must have gone wrong after updating plugins. Exiting!'
             exit 1
         end
 
@@ -171,13 +169,14 @@ class PluginStatus
         #- create a hash of updated plugins -#
         @current_plugins_list.each { |name, version|
             if @current_plugins_list[name] != @updated_plugins_list[name]
-                @blog_content += "+    #{name} has been updated _automatically_ from #{version} to #{@updated_plugins_list[name]}.\n"
+                @blog_content += "+    #{name} has been updated from #{version} to #{@updated_plugins_list[name]}.\n"
                 @any_auto_plugin_update = true
             end
         }
 
-        #- mv upload log to prev log -#
-        FileUtils.cp @updated_log, @prev_log
+        #- copy upload log to prev log via current log -#
+        FileUtils.cp @updated_log, @current_log
+        FileUtils.cp @current_log, @prev_log
 
         #- display results, if updates were done -#
         File.open( @blog_file_name, 'a' ) { |fh| fh.puts( @blog_content + "\n" ) } if @any_manual_plugin_update or @any_auto_plugin_update
