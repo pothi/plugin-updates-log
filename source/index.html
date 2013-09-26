@@ -4,26 +4,39 @@ title: Status updates
 ---
 
 <div id="home">
-	<h1>Recent Updates</h1>
-	<ul class="posts">
-	{% for post in site.posts limit:10 %}
-		{% if forloop.index <= 3 %}
-			{% assign content = post.content %}
-			<h2>{{ post.title }}</h2>
-			<p class="meta">{{ post.date | date_to_string }}</p>
-
-			<div class="post">
-			{{ content }}
-			</div>
-			<hr />
-		{% else %}
-			{% if forloop.index == 4 %}
-			<h2>Earlier Updates</h2>
-			{% endif %}
-			<li><span>{{ post.date | date_to_string }}</span> &raquo; <a href="{{ post.url }}">{{ post.title }}</a></li>
-		{% endif %}
-	{% endfor %}
-	</ul>
-	<p>Other updates were archived and are not available for display for security reason! Please contact Pothi, if you really need those.</p>
-
+    {% case site.posts.size %}
+    {% when 0 %}
+    <h1 id="intro">Not updates, yet!</h1>
+    {% when 1 %}
+    {% when 2 %}
+    <h1 id="intro">Recent Updates</h1>
+    {% else %}
+    <h1 id="intro">The three most recent updates!</h1>
+    {% endcase %}
+    <div>
+    </div>
+    {% for post in site.posts limit:3 %}
+    <div class="post">  
+        <h2><a href="{{ post.url }}">{{post.title}}</a></h2>
+        <span class="date">{{ post.date | date:"%B %d, %Y" }}</span>
+        {{ post.content }}
+    </div>
+    {% endfor %}
+    <div id="related">
+        <div class="related_left">
+            {% for post in site.posts offset:3 limit:1 %}
+            <h3>Previous updates</h3>
+            {% endfor %}
+            <ul class="posts small">
+                {% for post in site.posts offset:3 limit:5 %}
+                <li><span>{{ post.date | date_to_string }}</span> &raquo; <a href="{{ post.url }}">{{ post.title }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    {% for post in site.posts offset:8 limit:1 %}
+    <div id=archive>
+        <p>For older updates, please contact Pothi.</p>
+    </div>
+    {% endfor %}
 </div>
