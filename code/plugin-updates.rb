@@ -63,7 +63,7 @@ class PluginStatus
         @blog_file_name = "#{@blog_file_path}#{date}-plugin-updates.md"
 
         @log_dir    = "#{@jekyllroot}log/"
-        @wp_cli_log  = "#{@log_dir}/wp-cli.log"
+        @wp_cli_log  = "#{@log_dir}wp-cli.log"
         @prev_log    = "#{@log_dir}wp-cli-prev-#{@site_name}.log"
         @current_log = "#{@log_dir}wp-cli-current-#{@site_name}.log"
         @updated_log = "#{@log_dir}wp-cli-updated-#{@site_name}.log"
