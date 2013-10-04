@@ -123,7 +123,7 @@ class PluginStatus
         @current_plugins_list = self.class.create_hash( @current_log )
 
         #-- This routine is executed only once, when no previous data is found --#
-        if File.exists?( @prev_log )
+        if !File.exists?( @prev_log )
             #- create hash for prev log -#
             @prev_plugins_list = self.class.create_hash( @prev_log )
 
