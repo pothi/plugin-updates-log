@@ -83,6 +83,7 @@ class PluginStatus
             end
         end
 
+        system( "echo >> #{@wp_cli_log}" )
         system( "date '+%F %H:%M:%S - #{@site_name}' >> #{@wp_cli_log}" )
         if !$?.exitstatus
             puts 'Could not write to wp-cli.log file. Exiting!!!'
