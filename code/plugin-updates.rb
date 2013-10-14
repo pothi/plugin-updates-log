@@ -49,8 +49,8 @@ class PluginStatus
         time = Time.now.strftime( "%H:%M:%S" );
 
         #--- Variables ---#
-        @username = %x[echo -n $USER]
-        if @username == nil
+        @username = 'pothi'
+        if @username == ''
             puts 'Could not get USERNAME. Exiting.'
             exit 1
         end
@@ -122,8 +122,8 @@ class PluginStatus
         #- create the hash for the current log -#
         @current_plugins_list = self.class.create_hash( @current_log )
 
-        #-- This routine is executed only once, when no previous data is found --#
-        if !File.exists?( @prev_log )
+        #-- This routine is NOT executed only once, when no previous data is found --#
+        if File.exists?( @prev_log )
             #- create hash for prev log -#
             @prev_plugins_list = self.class.create_hash( @prev_log )
 
