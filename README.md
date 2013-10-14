@@ -8,5 +8,6 @@ Updating plugins may not be an smooth experience for everyone those don't have a
 __Things to change in the script__
 
     - Your site URL
+    - Username
     - Path to WordPress file
     - Path to Jekyll source
