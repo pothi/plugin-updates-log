@@ -114,7 +114,7 @@ class PluginStatus
         @any_manual_plugin_update = false # assume, no manual update/insert/removal occurred
 
         #- create current log -#
-        system( "/home/#{@username}/.wp-cli/bin/wp --path='#{@site_path}' plugin status > #{@current_log}" )
+        system( "/home/#{@username}/.wp-cli/bin/wp --path='#{@site_path}' --no-color plugin status > #{@current_log}" )
         if !$?.exitstatus
             puts 'Could not get current log / status of plugins. Exiting!'
             exit 1
@@ -157,7 +157,7 @@ class PluginStatus
         end
 
         #- create the update status log -#
-        system( "/home/#{@username}/.wp-cli/bin/wp --path='#{@site_path}' plugin status > #{@updated_log}" )
+        system( "/home/#{@username}/.wp-cli/bin/wp --path='#{@site_path}' --no-color plugin status > #{@updated_log}" )
         if !$?.exitstatus
             puts 'Could not get plugin status of updated plugins, even though, the previous log is found. Some must have gone wrong after updating plugins. Exiting!'
             exit 1
