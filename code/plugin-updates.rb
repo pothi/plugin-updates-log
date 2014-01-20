@@ -16,7 +16,7 @@ class PluginStatus
 
         File.readlines( log_file ).each do | line |
             # convert the line into a string
-            line_string = String.try_convert( line )
+            line_string = line.to_s
 
             if line_count == first_line # true for only once :)
                 # on line #1, the number of plugins is displayed at the first WORD
