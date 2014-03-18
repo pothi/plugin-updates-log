@@ -11,3 +11,13 @@ __Things to change in the script__
     - Username
     - Path to WordPress file
     - Path to Jekyll source
+
+__Things to change in source/_config.xml__
+
+    - Source URL
+    - Deploy URL
+    - BaseURL
+
+How to start Jekyll (as of version 1.4.3
+
+`jekyll serve --config=/path/to/source/_config.xml`

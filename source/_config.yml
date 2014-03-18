@@ -9,3 +9,6 @@ destination: /path/to/deploy
 
 permalink: pretty
 paginate: 10
+
+# Uncomment the following, if you use a dedicated domain for Jekyll
+baseurl: /updates
