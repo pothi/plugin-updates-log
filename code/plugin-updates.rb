@@ -55,6 +55,8 @@ class PluginStatus
             exit 1
         end
 
+        @wpcli_path = "/usr/local/bin/"
+
         @jekyllroot = "/home/#{@username}/miscsites/status/"
 
         @site_path  = "/home/#{@username}/sites/#{@site_name}/wordpress/"
@@ -108,13 +110,13 @@ class PluginStatus
         else
             @blog_content = ''
         end
-        
+
         @blog_content += "In [#{@site_name}](http://#{@site_name})\n\n"
         @any_auto_plugin_update = false # assume, no auto updates
         @any_manual_plugin_update = false # assume, no manual update/insert/removal occurred
 
         #- create current log -#
-        system( "/home/#{@username}/.wp-cli/bin/wp --path='#{@site_path}' --no-color plugin status > #{@current_log}" )
+        system( "#{@wpcli_path}wp --path='#{@site_path}' --no-color plugin status > #{@current_log}" )
         if !$?.exitstatus
             puts 'Could not get current log / status of plugins. Exiting!'
             exit 1
@@ -150,14 +152,14 @@ class PluginStatus
         end # File.exists? prev_log
         
         #--- update plugins and log results in site's root ---#
-        system( "/home/#{@username}/.wp-cli/bin/wp --path='#{@site_path}' plugin update-all >> #{@wp_cli_log}" )
+        system( "#{@wpcli_path}wp --path='#{@site_path}' plugin update-all >> #{@wp_cli_log}" )
         if !$?.exitstatus
             puts 'Could not update all the plugins, even though, the previous log is found. Please check the wp-cli.log. Exiting!'
             exit 1
         end
 
         #- create the update status log -#
-        system( "/home/#{@username}/.wp-cli/bin/wp --path='#{@site_path}' --no-color plugin status > #{@updated_log}" )
+        system( "#{@wpcli_path}wp --path='#{@site_path}' --no-color plugin status > #{@updated_log}" )
         if !$?.exitstatus
             puts 'Could not get plugin status of updated plugins, even though, the previous log is found. Some must have gone wrong after updating plugins. Exiting!'
             exit 1
