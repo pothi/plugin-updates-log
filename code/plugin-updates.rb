@@ -56,15 +56,13 @@ class PluginStatus
         end
 
         @wpcli_path = "/usr/local/bin/"
-
-        @jekyllroot = "/home/#{@username}/miscsites/status/"
-
         @site_path  = "/home/#{@username}/sites/#{@site_name}/wordpress/"
+        @jekyllroot = "/home/#{@username}/miscsites/status/source/"
 
-        @blog_file_path = "#{@jekyllroot}source/_posts/"
-        @blog_file_name = "#{@blog_file_path}#{date}-plugin-updates.md"
+        # Probable variables #
+        @blog_file_name = "#{@jekyllroot}_posts/#{date}-plugin-updates.md"
 
-        @log_dir    = "#{@jekyllroot}log/"
+        @log_dir    = "/home/#{@username}/log/wpcli"
         @wp_cli_log  = "#{@log_dir}wp-cli.log"
         @prev_log    = "#{@log_dir}wp-cli-prev-#{@site_name}.log"
         @current_log = "#{@log_dir}wp-cli-current-#{@site_name}.log"
@@ -78,7 +76,7 @@ class PluginStatus
 
         #--- Actions ---#
         if !File.directory?( @log_dir )
-            system( "mkdir #{@log_dir} &> /dev/null" )
+            system( "mkdir -p #{@log_dir} &> /dev/null" )
             if !$?.exitstatus
                 puts 'Could not create log directory'
                 exit 1
