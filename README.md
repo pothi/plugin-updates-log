@@ -32,5 +32,5 @@ How to start Jekyll (as of version 1.4.3), for testing
 42	5	*	*	*	ruby ~/others/plugins-updates-system/code/plugin-updates.rb &> /dev/null
 
 # Jekyll #
-@reboot jekyll --config=~/others/plugins-updates-system/source/_config.yml serve -w &> /dev/null
+@reboot jekyll serve --config=~/others/plugins-updates-system/source/_config.yml -w &> /dev/null
 ```
