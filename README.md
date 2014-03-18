@@ -26,11 +26,8 @@ How to start Jekyll (as of version 1.4.3), for testing
 
 ```bash
 #--- Jekyll ---#
-# On dev
-# *	*	*	*	*	ruby ~/others/updates_blog/code/plugin-updates.rb > ~/others/updates_blog/log/cron.log 2>&1
 # On production
-42	5	*	*	*	ruby ~/others/plugins-updates-system/code/plugin-updates.rb &> /dev/null
-
-# Jekyll #
-@reboot jekyll serve --config=~/others/plugins-updates-system/source/_config.yml -w &> /dev/null
+42	9	*	*	*	ruby ~/others/plugins-updates-system/code/plugin-updates.rb &> /dev/null
+# Replace USERNAME with the actual username below
+@reboot jekyll serve --config=/home/USERNAME/others/plugins-updates-system/source/_config.yml --watch --host=127.0.0.1 &> /dev/null
 ```
