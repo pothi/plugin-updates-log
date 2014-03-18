@@ -11,6 +11,7 @@ __Things to change in the script__
     - Username
     - Path to WordPress file
     - Path to Jekyll source
+    - Path to `wp-config.php` file
 
 __Things to change in source/_config.xml__
 

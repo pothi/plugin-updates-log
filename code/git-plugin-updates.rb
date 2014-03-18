@@ -59,13 +59,13 @@ class PluginStatus
         Open3.pipeline_rw( "sed \"s/[()',;]/ /g\" #{wpconfig_file}", 'grep DB_PASSWORD', "awk '{print $3}'" ) {|i, o, thrs| wppass = o.gets.chomp }
         p "DB Credentials: User - '#{wpuser}', Pass - '#{wppass}', DB - '#{wpdb}'" if @debug
 
-        system( "mysqldump --add-drop-table -u#{wpuser} -p'#{wppass}' #{wpdb} > #{save_in_dir}db.sql" )
+        system( "cd #{save_in_dir} && mysqldump --add-drop-table -u#{wpuser} -p'#{wppass}' #{wpdb} > #{site_url}-db.sql" )
         if !$?.exitstatus
             puts 'Could not create MySQL Dump'
             exit 1
         end
 
-        system( "zip #{save_in_dir}#{site_url}-db.sql.zip #{save_in_dir}db.sql && rm #{save_in_dir}db.sql" )
+        system( "cd #{save_in_dir} && rm #{site_url}-db.sql.zip &&  zip #{site_url}-db.sql.zip #{site_url}-db.sql && rm #{site_url}-db.sql" )
         if !$?.exitstatus
             puts 'Could not zip or delete the SQL file'
             exit 1
