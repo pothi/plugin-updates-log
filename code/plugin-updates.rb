@@ -62,7 +62,7 @@ class PluginStatus
         # Probable variables #
         @blog_file_name = "#{@jekyllroot}_posts/#{date}-plugin-updates.md"
 
-        @log_dir    = "/home/#{@username}/log/wpcli"
+        @log_dir    = "/home/#{@username}/log/wpcli/"
         @wp_cli_log  = "#{@log_dir}wp-cli.log"
         @prev_log    = "#{@log_dir}wp-cli-prev-#{@site_name}.log"
         @current_log = "#{@log_dir}wp-cli-current-#{@site_name}.log"
