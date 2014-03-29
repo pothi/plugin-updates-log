@@ -12,8 +12,9 @@ __Things to change in the script__
     - Path to WordPress file
     - Path to Jekyll source
     - Path to `wp-config.php` file
+    - Path to wp-cli executable
 
-__Things to change in source/_config.xml__
+__Things to change in source/_config.yaml__
 
     - Source URL
     - Deploy URL
@@ -30,5 +31,5 @@ How to start Jekyll (as of version 1.4.3), for testing
 # On production
 42	9	*	*	*	ruby ~/others/plugins-updates-system/code/plugin-updates.rb &> /dev/null
 # Replace USERNAME with the actual username below
-@reboot jekyll serve --config=/home/USERNAME/others/plugins-updates-system/source/_config.yml --watch --host=127.0.0.1 &> /dev/null
+@reboot jekyll serve --config=/home/USERNAME/others/plugins-updates-system/source/_config.yaml --watch --host=127.0.0.1 &> /dev/null
 ```

@@ -186,3 +186,5 @@ end # class PluginStatus
 
 sites.each { | site_name | PluginStatus.new( site_name ) }
 
+# To Do
+# verify, if wp-cli executable is in the correct path (clue: @wpcli_path)
